@@ -8,7 +8,7 @@
 
 ## Notifcação via e-mail quando um objeto é carregado em um bucket no S3
 
-Primeiro é a criação de um tópico e uma assinatura no serviço SNS
+Primeiro é a criação de um tópico 
 
     aws sns create-topic --name 'nome do topico'
 
@@ -42,6 +42,9 @@ Utilizei a seguinte política
     ]
   }
     
+Criando a Assinatura
+
+    aws sns subscribe --topic-arn 'ARN do topico criado' --protocol email --notification-endpoint 'e-mail para notificação'
 
 ## Criando o bucket e usuario sem permissão de delete no AWS CL
 
