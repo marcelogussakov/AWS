@@ -6,6 +6,8 @@
   - [Notifcação via e-mail quando um objeto é carregado em um bucket no S3](#notifcação-via-e-mail-quando-um-objeto-é-carregado-em-um-bucket-no-s3)
   - [Depois mude a politica de acesso para que o S3 tenha acesso ao SNS](#depois-mude-a-politica-de-acesso-para-que-o-s3-tenha-acesso-ao-sns)
   - [Criando a Assinatura](#criando-a-assinatura)
+  - [Criando a regra no EventBridge](#criando-a-regra-no-eventbridge)
+    - [utilizei o seguinte para o padrão do evento](#utilizei-o-seguinte-para-o-padrão-do-evento)
   - [Criando o bucket e usuario sem permissão de delete no AWS CLI](#criando-o-bucket-e-usuario-sem-permissão-de-delete-no-aws-cli)
     - [Primeiro criando a política de acesso](#primeiro-criando-a-política-de-acesso)
     - [Utilizei a  seguinte política](#utilizei-a--seguinte-política)
@@ -39,7 +41,7 @@ Utilizei a seguinte política
             "Service": "s3.amazonaws.com"
             },
             "Action": "SNS:Publish",
-            "Resource": "arn:aws:sns:us-east-1:429968804647:S3-Object",
+            "Resource": 'ARN do tópico',
             "Condition": {
             "StringEquals": {
                 "aws:SourceAccount": "429968804647"
@@ -55,6 +57,31 @@ Utilizei a seguinte política
 ## Criando a Assinatura
 
     aws sns subscribe --topic-arn 'ARN do topico criado' --protocol email --notification-endpoint 'e-mail para notificação'
+
+## Criando a regra no EventBridge
+
+    aws events put-rule  --name 'nome da regra' --event-pattern file://arquivo .json
+
+### utilizei o seguinte para o padrão do evento
+
+    {
+        "source": ["aws.s3"],
+        "detail-type": ["Object Created"]
+    }
+
+Agora setando o destino que é o nosso SNS
+
+Ainda não achei como fazer isso por CLI, então vamos pelo console 
+
+Primeiro na area do EventBridge vá na regra e depois em destinos
+<img src = "Arquivos/EventBridge1.PNG">
+
+Depois no tipo de destino 'Serviço AWS', 'Tópico SNS' e selecione o seu tópico
+<img src = "Arquivos/EventBridge2.PNG">
+
+Só dar next até o final e criar 
+
+
 
 ## Criando o bucket e usuario sem permissão de delete no AWS CLI
 
