@@ -10,36 +10,38 @@
 
 Primeiro é a criação de um tópico e uma assinatura no serviço SNS
 
-Imagens 
+    aws sns create-topic --name 'nome do topico'
 
-No tópico criado vá até a parte de política de acesso e substitua o que está la pela seguinte política:
+Depois edite a politica de acesso para que o S3 tenha acesso ao SNS
 
- {
-   "Version":"2012-10-17",
-   "Id":"example-ID",
-   "Statement":[
+    aws sns set-topic-attributes --topic-arn 'ARN do tópico' --attribute-name Policy --attribute-value file://'nome do arquivo .json'
+
+Utilizei a seguinte política
+
+    {
+    "Version": "2012-10-17",
+    "Id": "example-ID",
+    "Statement": [
       {
-         "Sid":"Example SNS topic policy",
-         "Effect":"Allow",
-         "Principal":{
-            "Service":"s3.amazonaws.com"
-         },
-         "Action":[
-            "SNS:Publish"
-         ],
-         "Resource":"SNS-topic-ARN",
-         "Condition":{
-            "ArnLike":{
-               "aws:SourceArn":"arn:aws:s3:*:*:bucket-name"
-            },
-            "StringEquals":{
-               "aws:SourceAccount":"bucket-owner-account-id"
-            }
-         }
+        "Sid": "Example SNS topic policy",
+        "Effect": "Allow",
+        "Principal": {
+          "Service": "s3.amazonaws.com"
+        },
+        "Action": "SNS:Publish",
+        "Resource": "arn:aws:sns:us-east-1:429968804647:S3-Object",
+        "Condition": {
+          "StringEquals": {
+            "aws:SourceAccount": "429968804647"
+          },
+          "ArnLike": {
+            "aws:SourceArn": "arn:aws:s3:*:*:*"
+          }
+        }
       }
-   ]
-}
-
+    ]
+  }
+    
 
 ## Criando o bucket e usuario sem permissão de delete no AWS CL
 
