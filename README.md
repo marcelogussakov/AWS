@@ -5,8 +5,8 @@
   - [Topicos](#topicos)
   - [Notifcação via e-mail quando um objeto é carregado em um bucket no S3](#notifcação-via-e-mail-quando-um-objeto-é-carregado-em-um-bucket-no-s3)
   - [Criando o bucket e usuario sem permissão de delete no AWS CLI](#criando-o-bucket-e-usuario-sem-permissão-de-delete-no-aws-cli)
-    - [Primeiro criando a política de acesso](#primeiro-criando-a-política-de-acesso)
-    - [Utilizei a  seguinte política](#utilizei-a--seguinte-política)
+      - [Primeiro criando a política de acesso](#primeiro-criando-a-política-de-acesso)
+      - [Utilizei a  seguinte política](#utilizei-a--seguinte-política)
 
 ## Notifcação via e-mail quando um objeto é carregado em um bucket no S3
 
@@ -50,11 +50,11 @@ Criando a Assinatura
 
 ## Criando o bucket e usuario sem permissão de delete no AWS CLI
 
-### Primeiro criando a política de acesso
+#### Primeiro criando a política de acesso
 
     aws iam create-policy --policy-name 'nome da política' --policy-document file://'caminho do arquivo .json'
 
-### Utilizei a  seguinte política
+#### Utilizei a  seguinte política
 
     {
         "Version": "2012-10-17",
