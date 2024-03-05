@@ -1,0 +1,23 @@
+{
+    "Version": "2012-10-17",
+    "Id": "example-ID",
+    "Statement": [
+      {
+        "Sid": "Example SNS topic policy",
+        "Effect": "Allow",
+        "Principal": {
+          "Service": "s3.amazonaws.com"
+        },
+        "Action": "SNS:Publish",
+        "Resource": "arn:aws:sns:us-east-1:429968804647:S3-Object",
+        "Condition": {
+          "StringEquals": {
+            "aws:SourceAccount": "429968804647"
+          },
+          "ArnLike": {
+            "aws:SourceArn": "arn:aws:s3:*:*:*"
+          }
+        }
+      }
+    ]
+  }

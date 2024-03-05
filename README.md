@@ -1,10 +1,12 @@
 # AWS
 
-## Topicos 
+# Tópicos 
 - [AWS](#aws)
-  - [Topicos](#topicos)
+- [Tópicos](#tópicos)
   - [Notifcação via e-mail quando um objeto é carregado em um bucket no S3](#notifcação-via-e-mail-quando-um-objeto-é-carregado-em-um-bucket-no-s3)
-  - [Depois mude a politica de acesso para que o S3 tenha acesso ao SNS](#depois-mude-a-politica-de-acesso-para-que-o-s3-tenha-acesso-ao-sns)
+    - [Primeiro é a criação de um tópico](#primeiro-é-a-criação-de-um-tópico)
+    - [Depois mude a politica de acesso para que o S3 tenha acesso ao SNS](#depois-mude-a-politica-de-acesso-para-que-o-s3-tenha-acesso-ao-sns)
+    - [Utilizei a seguinte política](#utilizei-a-seguinte-política)
   - [Criando a Assinatura](#criando-a-assinatura)
   - [Criando a regra no EventBridge](#criando-a-regra-no-eventbridge)
     - [utilizei o seguinte para o padrão do evento](#utilizei-o-seguinte-para-o-padrão-do-evento)
@@ -12,23 +14,24 @@
     - [Primeiro criando a política de acesso](#primeiro-criando-a-política-de-acesso)
     - [Utilizei a  seguinte política](#utilizei-a--seguinte-política)
   - [Criando o usuario](#criando-o-usuario)
-  - [Caso precise de login via console](#caso-precise-de-login-via-console)
-  - [Criando as chaves de acesso](#criando-as-chaves-de-acesso)
-  - [Anexando a política](#anexando-a-política)
-  - [Criando o bucket](#criando-o-bucket)
-  - [Setando a configuração de notificação do evento](#setando-a-configuração-de-notificação-do-evento)
+    - [Caso precise de login via console](#caso-precise-de-login-via-console)
+    - [Criando as chaves de acesso](#criando-as-chaves-de-acesso)
+    - [Anexando a política](#anexando-a-política)
+  - [Criando o bucket no S3](#criando-o-bucket-no-s3)
+    - [Setando a configuração de notificação do evento](#setando-a-configuração-de-notificação-do-evento)
+  - [Comando uteis para subir arquivo](#comando-uteis-para-subir-arquivo)
 
 ## Notifcação via e-mail quando um objeto é carregado em um bucket no S3
 
-Primeiro é a criação de um tópico 
+### Primeiro é a criação de um tópico 
 
     aws sns create-topic --name 'nome do topico'
 
-## Depois mude a politica de acesso para que o S3 tenha acesso ao SNS
+### Depois mude a politica de acesso para que o S3 tenha acesso ao SNS
 
     aws sns set-topic-attributes --topic-arn 'ARN do tópico' --attribute-name Policy --attribute-value file://'nome do arquivo .json'
 
-Utilizei a seguinte política
+### Utilizei a seguinte política
 
     {
         "Version": "2012-10-17",
@@ -110,7 +113,7 @@ Só dar next até o final e criar
                     "s3:GetObjectVersion"
                 ],
                 "Resource": [
-                    "arn:aws:s3:::*/*"                
+                    "arn:aws:s3:::*"                
                 ]
             }
         ]
@@ -120,16 +123,16 @@ Só dar next até o final e criar
 
     aws iam create-user --user-name 'nome de usuario'
 
-## Caso precise de login via console
+### Caso precise de login via console
 
     aws iam create-login-profile --user-name 'nome de usuario' --password 'senha' --password-reset-required    
 
-## Criando as chaves de acesso
+### Criando as chaves de acesso
 
     aws iam create-access-key --user-name 'nome de usuario'
 
 
-## Anexando a política
+### Anexando a política
 
 Primeiro para pegar o ARN da política
  
@@ -138,15 +141,15 @@ Com o ARN copiado
  
     aws iam attach-user-policy --user-name 'usuario criado' --policy-arn 'arn da política'
 
-## Criando o bucket
+## Criando o bucket no S3
   
     aws s3api create-bucket --bucket 'nome do bucket' --region us-east-1
 
-## Setando a configuração de notificação do evento 
+### Setando a configuração de notificação do evento 
 
     aws s3api put-bucket-notification-configuration --bucket 'nome do bucket' --notification-configuration file://'arquivo .json'
 
-Utilizei a seguinte config, tera evento sempra que um objeto for criado
+Utilizei a seguinte config, tera evento sempre que um objeto for criado
 
     {
         "TopicConfigurations": [
@@ -174,3 +177,8 @@ Utilizei a seguinte config, tera evento sempra que um objeto for criado
         ]
     }
 
+## Comando uteis para subir arquivo 
+
+    aws s3 sync  'Caminho da pasta do arquivo' s3://'bucket' --profile 2
+
+No caso eu usei o --profile por estar rodando com um usuario com menos permissões e um admin
