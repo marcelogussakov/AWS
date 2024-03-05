@@ -61,12 +61,16 @@ Criando as chaves de acesso
 
 
 Anexando a política
+
 Primeiro para pegar o ARN da política
+ 
     aws iam list-policies --scope Local 
 Com o ARN copiado 
+ 
     aws iam attach-user-policy --user-name 'usuario criado' --policy-arn 'arn da política'
 
 Criando o bucket
+  
     aws s3api create-bucket --bucket 'nome do bucket' --region us-east-1
 
 
