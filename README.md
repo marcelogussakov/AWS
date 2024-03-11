@@ -19,7 +19,7 @@
     - [Anexando a política](#anexando-a-política)
   - [Criando o bucket no S3](#criando-o-bucket-no-s3)
     - [Setando a configuração de notificação do evento](#setando-a-configuração-de-notificação-do-evento)
-  - [Comando uteis para subir arquivo](#comando-uteis-para-subir-arquivo)
+  - [Comando uteis](#comando-uteis)
 
 ## Notifcação via e-mail quando um objeto é carregado em um bucket no S3
 
@@ -177,8 +177,13 @@ Utilizei a seguinte config, tera evento sempre que um objeto for criado
         ]
     }
 
-## Comando uteis para subir arquivo 
+## Comando uteis 
+Sobe objeto
 
-    aws s3 sync  'Caminho da pasta do arquivo' s3://'bucket' --profile 2
+    aws s3api put-object --bucket teste-pluryx --key teste-pluryx --body /mnt/c/Users/marce/Desktop/Pessoal/CV/Marcelo\ Gussakov\ Português\ 2024.pdf
 
-No caso eu usei o --profile por estar rodando com um usuario com menos permissões e um admin
+
+Deletar objeto
+    aws s3api delete-object --bucket teste-pluryx --key teste-pluryx 
+
+
