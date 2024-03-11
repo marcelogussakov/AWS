@@ -180,11 +180,13 @@ Utilizei a seguinte config, tera evento sempre que um objeto for criado
 ## Comando uteis 
 Sobe objeto
 
-    aws s3api put-object --bucket teste-pluryx --key teste-pluryx --body /mnt/c/Users/marce/Desktop/Pessoal/CV/Marcelo\ Gussakov\ Português\ 2024.pdf
+    aws s3api put-object --bucket 'bucket' --key 'nome do arquivo' --body /mnt/c/Users/marce/Desktop/Pessoal/CV/Marcelo\ Gussakov\ Português\ 2024.pdf
 
 
 Deletar objeto
 
-    aws s3api delete-object --bucket teste-pluryx --key teste-pluryx 
+    aws s3api delete-object --bucket 'bucket' --key 'nome do arquivo' 
 
+Baixar arquivo
 
+    aws s3api get-object --bucket c --key 'nome do arquivo'  'nome do arquivo destino'
