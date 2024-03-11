@@ -184,6 +184,7 @@ Sobe objeto
 
 
 Deletar objeto
+
     aws s3api delete-object --bucket teste-pluryx --key teste-pluryx 
 
 
